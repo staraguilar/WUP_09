@@ -16,10 +16,85 @@ output:
 ```{r include=FALSE,echo=FALSE}
 require(tigerstats)
 require(tidyverse)
+require(leaps)
+require(car)
 ```
 
 # Predicting Fish Weight
 
+```{r}
+Perch <- filter(Fish,Species=="Perch")
+Perch <- select(Perch, -Species)
+```
+
+
+```{r}
+PerchModel1<- lm(Weight~.,Perch)
+summary(PerchModel1)
+```
+
+
+```{r}
+PerchModel2<- lm(Weight~. -Length1,Perch)
+summary(PerchModel2)
+```
+
+
+```{r}
+PerchModel3<- lm(Weight~. -Length1 -Length2,Perch)
+summary(PerchModel3)
+```
+
+
+
+```{r}
+PerchModel4<- lm(Weight~. -Length1 -Length2 -Length3,Perch)
+summary(PerchModel4)
+```
+
+```{r}
+PerchModel5<- lm(Weight~. -Length1 -Length2 -Length3 -Width,Perch)
+summary(PerchModel5)
+```
+
+
+```{r}
+regsubsets.out <- regsubsets(Weight~., data=Perch, nbest=1, nvmax=NULL, force.in=NULL, force.out=NULL,
+    method="exhaustive")
+summary.out <- summary(regsubsets.out)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+regsubsets(Weight ~ .,
+data = Perch,
+nbest = 1, # 1 best model for each number of predictors
+nvmax = NULL, # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main="Adjusted R^2")
+```
+
+### Best Models
+
+```{r}
+which.max(summary.out$adjr2)
+```
+```{r}
+summary.out$which[2,]
+```
+```{r}
+best.model <- lm(Weight~Height+Width,data=Perch)
+summary(best.model)
+```
+```{r}
+anova(Perchfullup,best.model)
+```
 
 ## Perch
 
