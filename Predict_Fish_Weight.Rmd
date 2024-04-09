@@ -155,9 +155,11 @@ library(car)
 subsets(regsubsets.out,statistic="adjr2",legend="topright",main="Adjusted R^2")
 ```
 
+Interpreting our results we see that the best two element models is using Length3 and width . The best overall model is also the 2 element model using Length3 and width using adjusted R squared.
 
 
-
-### Best Two regressor model
 
 ## Final Summary Statements
+
+I learned how to use leaps and learned how to start codes from scratch removing statements until I got the best adjusted R squared model. 
+  
