@@ -93,9 +93,9 @@ summary.out$which[2,]
 best.model <- lm(Weight~Height+Width,data=Perch)
 summary(best.model)
 ```
-
-
-
+  
+Interpreting our results we see that the best two element models is using height and width. The best overall model is also the 2 element model using height and width using adjusted R squared. 
+   
 
 ## Pike
 
